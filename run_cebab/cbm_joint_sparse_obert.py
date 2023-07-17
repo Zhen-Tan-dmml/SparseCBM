@@ -2,7 +2,7 @@ import torch
 import transformers
 from gensim.models import FastText
 from torch.optim.lr_scheduler import StepLR
-from transformers import RobertaTokenizer, RobertaModel,BertModel, BertTokenizer,GPT2Model, GPT2Tokenizer, DistilBertModel, DistilBertTokenizer
+from transformers import RobertaTokenizer, RobertaModel,BertModel, BertTokenizer,GPT2Model, GPT2Tokenizer, DistilBertModel, DistilBertTokenizer, OPTModel, AutoTokenizer
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.sampler import Sampler
 import torch.nn.functional as F
@@ -84,6 +84,15 @@ elif model_name == 'gpt2':
     model = GPT2Model.from_pretrained(model_name)
     tokenizer = GPT2Tokenizer.from_pretrained(model_name)
     tokenizer.pad_token = tokenizer.eos_token 
+elif model_name == 'facebook/opt-125m':
+    model = OPTModel.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+elif model_name == 'facebook/opt-350m':
+    model = OPTModel.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+elif model_name == 'facebook/opt-1.3b':
+    model = OPTModel.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
 elif model_name == 'lstm':
     fasttext_model = FastText.load_fasttext_format('./fasttext/cc.en.300.bin')
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
@@ -571,12 +580,12 @@ for epoch in range(num_epochs):
                 XtoC_outputs.append(outputs[concept_idx+1]) 
                 XtoY_outputs.extend(outputs [0:1])
 
-            predictions = torch.argmax(XtoY_output[0], axis=1)
+            predictions = torch.argmax(XtoY_outputs[0], axis=1)
             test_accuracy += torch.sum(predictions == label).item()
             predict_labels = np.append(predict_labels, predictions.cpu().numpy())
             true_labels = np.append(true_labels, label.cpu().numpy())
             #concept accuracy
-            XtoC_logits = torch.cat(XtoC_output, dim=0)
+            XtoC_logits = torch.cat(XtoC_outputs, dim=0)
             concept_predictions = torch.argmax(XtoC_logits, axis=1)
             concept_test_accuracy += torch.sum(concept_predictions == concept_labels).item()
             concept_predict_labels = np.append(concept_predict_labels, concept_predictions.cpu().numpy())
