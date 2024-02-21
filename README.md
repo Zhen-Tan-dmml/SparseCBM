@@ -20,7 +20,7 @@ We follow installation instructions from the [CEBaB](https://github.com/CEBaBing
 
 ## Experiments
 
-The code is tested on NVIDIA A100 80GB GPU. An example for running the experiments is as follows:
+The code is tested on NVIDIA A100 80GB GPUs. An example for running the experiments is as follows:
 
 ```shell
 bash run.sh
