@@ -1,4 +1,4 @@
-# SparseCBM (AAAI'24)
+# Sparsity-Guided Holistic Explanation for LLMs with Interpretable Inference-Time Intervention (AAAI'24)
 
 Datasets and baselines are available in our prevous work: [CBM-NLP](https://github.com/Zhen-Tan-dmml/CBM_NLP.git)
 
